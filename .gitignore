@@ -1,0 +1,10 @@
+# Any folder named as..
+**/*[Dd]ebug*/
+**/[Rr]elease*/
+**/git_ignore/
+
+# Any eclipse 
+**/.settings/language.settings.xml
+
+#doxy
+/doc/html
