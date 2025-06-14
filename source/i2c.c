@@ -25,8 +25,8 @@ int i2c_test() {
   status_t reVal = kStatus_Fail;
 
   /*Clock setting for LPI2C*/
-//  CLOCK_SetMux(kCLOCK_Lpi2cMux, LPI2C_CLOCK_SOURCE_SELECT);
-//  CLOCK_SetDiv(kCLOCK_Lpi2cDiv, LPI2C_CLOCK_SOURCE_DIVIDER);
+  CLOCK_SetMux(kCLOCK_Lpi2cMux, LPI2C_CLOCK_SOURCE_SELECT);   //
+  CLOCK_SetDiv(kCLOCK_Lpi2cDiv, LPI2C_CLOCK_SOURCE_DIVIDER);
 
   PRINTF("\r\nLPI2C board2board interrupt example -- Master transfer.\r\n");
 
