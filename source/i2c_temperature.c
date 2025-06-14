@@ -32,8 +32,8 @@ int main(void) {
     // refactor: MUX and configuration of i2c using pin tools, SION enabled for bidirectional
 //    IOMUXC_SetPinMux(IOMUXC_GPIO_01_LPI2C1_SDA, 1U);
 //    IOMUXC_SetPinMux(IOMUXC_GPIO_02_LPI2C1_SCL, 1U);
-    IOMUXC_SetPinConfig(IOMUXC_GPIO_01_LPI2C1_SDA, 0xD8A0U);
-    IOMUXC_SetPinConfig(IOMUXC_GPIO_02_LPI2C1_SCL, 0xD8A0U);
+//    IOMUXC_SetPinConfig(IOMUXC_GPIO_01_LPI2C1_SDA, 0xD8A0U);
+//    IOMUXC_SetPinConfig(IOMUXC_GPIO_02_LPI2C1_SCL, 0xD8A0U);
 
     BOARD_InitBootClocks();
     BOARD_InitBootPeripherals();

@@ -15,3 +15,6 @@
 handle the bidirectional nature of the SDA line by forcing the input path to be active, 
 regardless of the pin's default direction based on its alternate function setting
 
+## Introduce peripheral i2c, master mode, 100KHz, transfer, clock wip
+	Enable Open Drain, 22K pull up
+	0xD8A0U

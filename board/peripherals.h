@@ -10,10 +10,40 @@
  * Included files
  **********************************************************************************************************************/
 #include "fsl_common.h"
+#include "fsl_clock.h"
+#include "fsl_lpi2c.h"
 
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
+
+/***********************************************************************************************************************
+ * Definitions
+ **********************************************************************************************************************/
+/* Definitions for BOARD_InitPeripherals functional group */
+/* BOARD_InitPeripherals defines for LPI2C1 */
+/* Definition of peripheral ID */
+#define LPI2C1_PERIPHERAL LPI2C1
+/* Definition of clock source */
+#define LPI2C1_CLOCK_FREQ 60000000UL
+/* Transfer buffer size */
+#define LPI2C1_MASTER_BUFFER_SIZE 40
+/* Definition of follower address */
+#define LPI2C1_MASTER_SLAVE_ADDRESS 0
+
+/***********************************************************************************************************************
+ * Global variables
+ **********************************************************************************************************************/
+extern const lpi2c_master_config_t LPI2C1_masterConfig;
+extern lpi2c_master_transfer_t LPI2C1_masterTransfer;
+extern uint8_t lpi2c1_master_buffer[LPI2C1_MASTER_BUFFER_SIZE];
+extern lpi2c_master_handle_t lpi2c1_master_handle;
+
+/***********************************************************************************************************************
+ * Callback functions
+ **********************************************************************************************************************/
+/* Leader transfer callback function for component LPI2C1*/
+extern void lpi2c1_master_callback(LPI2C_Type *base, lpi2c_master_handle_t *handle, status_t completionStatus, void *userData);
 
 /***********************************************************************************************************************
  * Initialization functions

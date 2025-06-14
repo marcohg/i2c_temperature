@@ -44,8 +44,10 @@ void BOARD_InitBootPins(void) {
 BOARD_InitPins:
 - options: {callFromInitBoot: 'true', coreID: core0, enableClock: 'true'}
 - pin_list:
-  - {pin_num: '11', peripheral: LPI2C1, signal: SCL, pin_signal: GPIO_02, identifier: '', software_input_on: Enable}
-  - {pin_num: '12', peripheral: LPI2C1, signal: SDA, pin_signal: GPIO_01, identifier: '', software_input_on: Enable}
+  - {pin_num: '11', peripheral: LPI2C1, signal: SCL, pin_signal: GPIO_02, identifier: '', software_input_on: Enable, open_drain: Enable, pull_up_down_config: Pull_Up_22K_Ohm,
+    hysteresis_enable: Disable}
+  - {pin_num: '12', peripheral: LPI2C1, signal: SDA, pin_signal: GPIO_01, identifier: '', software_input_on: Enable, open_drain: Enable, pull_up_down_config: Pull_Up_22K_Ohm,
+    hysteresis_enable: Disable}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -60,6 +62,8 @@ void BOARD_InitPins(void) {
 
   IOMUXC_SetPinMux(IOMUXC_GPIO_01_LPI2C1_SDA, 1U); 
   IOMUXC_SetPinMux(IOMUXC_GPIO_02_LPI2C1_SCL, 1U); 
+  IOMUXC_SetPinConfig(IOMUXC_GPIO_01_LPI2C1_SDA, 0xD8A0U); 
+  IOMUXC_SetPinConfig(IOMUXC_GPIO_02_LPI2C1_SCL, 0xD8A0U); 
 }
 
 /*
