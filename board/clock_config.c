@@ -61,7 +61,7 @@ outputs:
 - {id: GPT1_ipg_clk_highfreq.outFreq, value: 62.5 MHz}
 - {id: GPT2_ipg_clk_highfreq.outFreq, value: 62.5 MHz}
 - {id: IPG_CLK_ROOT.outFreq, value: 125 MHz}
-- {id: LPI2C_CLK_ROOT.outFreq, value: 60 MHz}
+- {id: LPI2C_CLK_ROOT.outFreq, value: 10 MHz}
 - {id: LPSPI_CLK_ROOT.outFreq, value: 105.6 MHz}
 - {id: MQS_MCLK.outFreq, value: 1080/17 MHz}
 - {id: PERCLK_CLK_ROOT.outFreq, value: 62.5 MHz}
@@ -80,6 +80,7 @@ settings:
 - {id: CCM.AHB_PODF.scale, value: '1', locked: true}
 - {id: CCM.FLEXSPI_PODF.scale, value: '4', locked: true}
 - {id: CCM.IPG_PODF.scale, value: '4'}
+- {id: CCM.LPI2C_CLK_PODF.scale, value: '6', locked: true}
 - {id: CCM.LPSPI_PODF.scale, value: '5'}
 - {id: CCM.PERCLK_PODF.scale, value: '2', locked: true}
 - {id: CCM.PRE_PERIPH_CLK_SEL.sel, value: CCM_ANALOG.ENET_500M_REF_CLK}
@@ -223,7 +224,7 @@ void BOARD_BootClockRUN(void)
     CLOCK_DisableClock(kCLOCK_Lpi2c1);
     CLOCK_DisableClock(kCLOCK_Lpi2c2);
     /* Set LPI2C_CLK_PODF. */
-    CLOCK_SetDiv(kCLOCK_Lpi2cDiv, 0);
+    CLOCK_SetDiv(kCLOCK_Lpi2cDiv, 5);
     /* Set Lpi2c clock source. */
     CLOCK_SetMux(kCLOCK_Lpi2cMux, 0);
     /* Disable UART clock gate. */

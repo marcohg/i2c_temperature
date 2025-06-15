@@ -27,8 +27,8 @@ int i2c_test() {
   status_t reVal = kStatus_Fail;
 
   /*Clock setting for LPI2C*/
-  CLOCK_SetMux(kCLOCK_Lpi2cMux, LPI2C_CLOCK_SOURCE_SELECT);   // not set by peripheral yet
-  CLOCK_SetDiv(kCLOCK_Lpi2cDiv, LPI2C_CLOCK_SOURCE_DIVIDER);
+//  CLOCK_SetMux(kCLOCK_Lpi2cMux, LPI2C_CLOCK_SOURCE_SELECT);   // not set by peripheral yet
+//  CLOCK_SetDiv(kCLOCK_Lpi2cDiv, LPI2C_CLOCK_SOURCE_DIVIDER);
 
   PRINTF("\r\nLPI2C board2board interrupt example -- Master transfer.\r\n");
 
@@ -49,7 +49,7 @@ int i2c_test() {
   }
   PRINTF("\r\n\r\n");
 
-  lpi2c_master_config_t masterConfig;
+//  lpi2c_master_config_t masterConfig;
 
   /*
    * masterConfig.debugEnable = false;
@@ -61,14 +61,13 @@ int i2c_test() {
    * masterConfig.sdaGlitchFilterWidth_ns = 0;
    * masterConfig.sclGlitchFilterWidth_ns = 0;
    */
-  LPI2C_MasterGetDefaultConfig(&masterConfig);
+//  LPI2C_MasterGetDefaultConfig(&masterConfig);
 
   /* Change the default baudrate configuration */
-  masterConfig.baudRate_Hz = I2C_BAUDRATE;
+//  masterConfig.baudRate_Hz = I2C_BAUDRATE;
 
   /* Initialize the LPI2C master peripheral */
-  LPI2C_MasterInit(EXAMPLE_I2C_MASTER, &masterConfig,
-  LPI2C_MASTER_CLOCK_FREQUENCY);
+//  LPI2C_MasterInit(EXAMPLE_I2C_MASTER, &masterConfig,  LPI2C_MASTER_CLOCK_FREQUENCY);
 
   /* Create the LPI2C handle for the non-blocking transfer */
 //  LPI2C_MasterTransferCreateHandle(EXAMPLE_I2C_MASTER, &g_m_handle,lpi2c_master_callback, NULL);

@@ -49,7 +49,7 @@ void BOARD_InitBootClocks(void);
 #define BOARD_BOOTCLOCKRUN_GPT1_IPG_CLK_HIGHFREQ      62500000UL     /* Clock consumers of GPT1_ipg_clk_highfreq output : GPT1 */
 #define BOARD_BOOTCLOCKRUN_GPT2_IPG_CLK_HIGHFREQ      62500000UL     /* Clock consumers of GPT2_ipg_clk_highfreq output : GPT2 */
 #define BOARD_BOOTCLOCKRUN_IPG_CLK_ROOT               125000000UL    /* Clock consumers of IPG_CLK_ROOT output : ADC1, ADC_ETC, AIPSTZ1, AIPSTZ2, AOI, ARM, CCM, CSU, DCDC, DCP, DMA0, DMAMUX, EWM, FLEXIO1, FLEXRAM, FLEXSPI, GPC, GPIO1, GPIO2, GPIO5, IOMUXC, KPP, LPI2C1, LPI2C2, LPSPI1, LPSPI2, LPUART1, LPUART2, LPUART3, LPUART4, OCOTP, PWM1, RTWDOG, SAI1, SAI3, SNVS, SPDIF, SRC, TEMPMON, TRNG, USB, WDOG1, WDOG2, XBARA */
-#define BOARD_BOOTCLOCKRUN_LPI2C_CLK_ROOT             60000000UL     /* Clock consumers of LPI2C_CLK_ROOT output : LPI2C1, LPI2C2 */
+#define BOARD_BOOTCLOCKRUN_LPI2C_CLK_ROOT             10000000UL     /* Clock consumers of LPI2C_CLK_ROOT output : LPI2C1, LPI2C2 */
 #define BOARD_BOOTCLOCKRUN_LPSPI_CLK_ROOT             105600000UL    /* Clock consumers of LPSPI_CLK_ROOT output : LPSPI1, LPSPI2 */
 #define BOARD_BOOTCLOCKRUN_MQS_MCLK                   63529411UL     /* Clock consumers of MQS_MCLK output : N/A */
 #define BOARD_BOOTCLOCKRUN_PERCLK_CLK_ROOT            62500000UL     /* Clock consumers of PERCLK_CLK_ROOT output : GPT1, GPT2, PIT */

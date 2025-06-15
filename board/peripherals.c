@@ -94,7 +94,7 @@ instance:
 - config_sets:
   - main:
     - clockSource: 'Lpi2cClock'
-    - clockSourceFreq: 'ClocksTool_DefaultInit'
+    - clockSourceFreq: 'BOARD_BootClockRUN'
   - interrupt_vector: []
   - master:
     - mode: 'transfer'

@@ -16,5 +16,13 @@ handle the bidirectional nature of the SDA line by forcing the input path to be 
 regardless of the pin's default direction based on its alternate function setting
 
 ## Introduce peripheral i2c, master mode, 100KHz, transfer, clock wip
-	Enable Open Drain, 22K pull up
-	0xD8A0U
+- Enable Open Drain, 22K pull up
+- config word for pads: 0xD8A0U (just to check)
+
+## Working I2C Clock
+1. Windows->Prefernces->MCUXpresso config: Disable the "read only files", this protection messes up.
+2. LPI2C clock tool: 24MHz ext ->PLL-> 480MHz -> /8 = 60MHz -> /6 = 10MHz
+3. I2C peripheral clock source: BOOT_CLOCK RUN 10Mz
+4. With 1,2 and 3, frequency can be set. The displayed calculated value should be closer or equal.
+-> next remove i2c and use Config tools only
+    

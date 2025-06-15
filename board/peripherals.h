@@ -25,7 +25,7 @@ extern "C" {
 /* Definition of peripheral ID */
 #define LPI2C1_PERIPHERAL LPI2C1
 /* Definition of clock source */
-#define LPI2C1_CLOCK_FREQ 60000000UL
+#define LPI2C1_CLOCK_FREQ 10000000UL
 /* Transfer buffer size */
 #define LPI2C1_MASTER_BUFFER_SIZE 40
 /* Definition of follower address */
