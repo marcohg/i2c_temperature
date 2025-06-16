@@ -16,9 +16,10 @@
 #include "clock_config.h"
 #include "fsl_debug_console.h"
 /* TODO: insert other include files here. */
-#include "i2c.h"
+#include "b2b_i2c.h"
 
 /* TODO: insert other definitions and declarations here. */
+
 
 /*
  * @brief   Application entry point.
@@ -37,7 +38,7 @@ int main(void) {
 #endif
 
     PRINTF("Hello World\r\n");
-    i2c_test();
+    b2b_test();
 
     /* Force the counter to be placed into memory. */
     volatile static int i = 0 ;
