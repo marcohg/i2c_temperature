@@ -25,6 +25,7 @@
  * @brief   Application entry point.
  */
 #include "fsl_iomuxc.h" // refactor
+int pcf8754_write(uint8_t addr_3bit, uint8_t wr);
 int main(void) {
 
     /* Init board hardware. */
@@ -38,7 +39,16 @@ int main(void) {
 #endif
 
     PRINTF("Hello World\r\n");
-    b2b_test();
+//    b2b_test();
+    uint8_t w = 0xff;
+    uint8_t r;
+    if (pcf8754_write(0, w) ==0) {
+      PRINTF("Write %x\r\n", w & 0x0ff);
+    }
+    else {
+      PRINTF("Failed \r\n");
+    }
+
 
     /* Force the counter to be placed into memory. */
     volatile static int i = 0 ;
