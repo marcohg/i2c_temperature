@@ -12,6 +12,7 @@
 #include "fsl_common.h"
 #include "fsl_clock.h"
 #include "fsl_lpi2c.h"
+#include "fsl_gpt.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -30,6 +31,14 @@ extern "C" {
 #define LPI2C1_MASTER_BUFFER_SIZE 40
 /* Definition of follower address */
 #define LPI2C1_MASTER_SLAVE_ADDRESS 0
+/* Definition of peripheral ID */
+#define GPT1_PERIPHERAL GPT1
+/* Definition of the clock source frequency */
+#define GPT1_CLOCK_SOURCE 62500000UL
+/* GPT1 interrupt vector ID (number). */
+#define GPT1_GPT_IRQN GPT1_IRQn
+/* GPT1 interrupt handler identifier. */
+#define GPT1_GPT_IRQHANDLER GPT1_IRQHandler
 
 /***********************************************************************************************************************
  * Global variables
@@ -38,6 +47,7 @@ extern const lpi2c_master_config_t LPI2C1_masterConfig;
 extern lpi2c_master_transfer_t LPI2C1_masterTransfer;
 extern uint8_t lpi2c1_master_buffer[LPI2C1_MASTER_BUFFER_SIZE];
 extern lpi2c_master_handle_t lpi2c1_master_handle;
+extern const gpt_config_t GPT1_config;
 
 /***********************************************************************************************************************
  * Callback functions

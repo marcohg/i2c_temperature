@@ -408,6 +408,16 @@
                   <data type="Version" maxValue="2.5.9">2.2.0</data>
                </feature>
             </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.gpt" description="GPT Driver is not found in the toolchain/IDE project. The project will not compile!" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.gpt" description="An unsupported version of the GPT Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. The project might not compile correctly." problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">2.0.0</data>
+               </feature>
+            </dependency>
             <dependency resourceType="Tool" resourceId="Clocks" description="The Clocks tool is required by the Peripherals tool, but it is disabled." problem_level="2" source="Peripherals">
                <feature name="enabled" evaluation="equal">
                   <data>true</data>
@@ -441,11 +451,18 @@
                         <data type="Boolean">true</data>
                      </feature>
                   </dependency>
+                  <dependency resourceType="ClockOutput" resourceId="PERCLK_CLK_ROOT" description="PERCLK_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="frequency" evaluation="greaterThan">
+                        <data type="Frequency" unit="Hz">0</data>
+                     </feature>
+                  </dependency>
                </dependencies>
                <instances>
                   <instance name="NVIC" uuid="3dcf88b1-1785-4ce2-a35b-b963359198ad" type="nvic" type_id="nvic" mode="general" peripheral="NVIC" enabled="true" comment="" custom_name_enabled="false" editing_lock="false">
                      <config_set name="nvic">
-                        <array name="interrupt_table"/>
+                        <array name="interrupt_table">
+                           <struct name="0"/>
+                        </array>
                         <array name="interrupts"/>
                      </config_set>
                   </instance>
@@ -497,6 +514,45 @@
                            <setting name="buffer_custom_name" value="lpi2c1_master_buffer"/>
                            <setting name="dataSize" value="40"/>
                         </struct>
+                     </config_set>
+                  </instance>
+                  <instance name="GPT1" uuid="81c853d8-13b5-4eaf-ac4c-ec7c9ab4b07a" type="gpt" type_id="gpt_2.0.0" mode="general" peripheral="GPT1" enabled="true" comment="" custom_name_enabled="false" editing_lock="false">
+                     <config_set name="fsl_gpt">
+                        <struct name="gpt_config">
+                           <setting name="clockSource" value="kGPT_ClockSource_Periph"/>
+                           <setting name="clockSourceFreq" value="ClocksTool_DefaultInit"/>
+                           <setting name="oscDivider" value="1"/>
+                           <setting name="divider" value="1"/>
+                           <setting name="enableFreeRun" value="false"/>
+                           <setting name="enableRunInWait" value="true"/>
+                           <setting name="enableRunInStop" value="true"/>
+                           <setting name="enableRunInDoze" value="false"/>
+                           <setting name="enableRunInDbg" value="false"/>
+                           <setting name="enableMode" value="true"/>
+                        </struct>
+                        <array name="input_capture_channels"/>
+                        <array name="output_compare_channels">
+                           <struct name="0">
+                              <setting name="channelName" value=""/>
+                              <setting name="channel" value="kGPT_OutputCompare_Channel1"/>
+                              <setting name="mode" value="kGPT_OutputOperation_Disconnected"/>
+                              <setting name="compare_value_str" value="10ms"/>
+                           </struct>
+                        </array>
+                        <set name="interrupt_requests">
+                           <selected>
+                              <id>kGPT_OutputCompare1InterruptEnable</id>
+                           </selected>
+                        </set>
+                        <setting name="isInterruptEnabled" value="true"/>
+                        <struct name="interrupt">
+                           <setting name="IRQn" value="GPT1_IRQn"/>
+                           <setting name="enable_interrrupt" value="enabled"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="priority" value="0"/>
+                           <setting name="enable_custom_name" value="false"/>
+                        </struct>
+                        <setting name="EnableTimerInInit" value="true"/>
                      </config_set>
                   </instance>
                </instances>

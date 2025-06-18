@@ -69,7 +69,8 @@ instance:
 - peripheral: 'NVIC'
 - config_sets:
   - nvic:
-    - interrupt_table: []
+    - interrupt_table:
+      - 0: []
     - interrupts: []
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
@@ -167,12 +168,82 @@ static void LPI2C1_init(void) {
 }
 
 /***********************************************************************************************************************
+ * GPT1 initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'GPT1'
+- type: 'gpt'
+- mode: 'general'
+- custom_name_enabled: 'false'
+- type_id: 'gpt_2.0.0'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'GPT1'
+- config_sets:
+  - fsl_gpt:
+    - gpt_config:
+      - clockSource: 'kGPT_ClockSource_Periph'
+      - clockSourceFreq: 'ClocksTool_DefaultInit'
+      - oscDivider: '1'
+      - divider: '1'
+      - enableFreeRun: 'false'
+      - enableRunInWait: 'true'
+      - enableRunInStop: 'true'
+      - enableRunInDoze: 'false'
+      - enableRunInDbg: 'false'
+      - enableMode: 'true'
+    - input_capture_channels: []
+    - output_compare_channels:
+      - 0:
+        - channelName: ''
+        - channel: 'kGPT_OutputCompare_Channel1'
+        - mode: 'kGPT_OutputOperation_Disconnected'
+        - compare_value_str: '10ms'
+    - interrupt_requests: 'kGPT_OutputCompare1InterruptEnable'
+    - isInterruptEnabled: 'true'
+    - interrupt:
+      - IRQn: 'GPT1_IRQn'
+      - enable_interrrupt: 'enabled'
+      - enable_priority: 'false'
+      - priority: '0'
+      - enable_custom_name: 'false'
+    - EnableTimerInInit: 'true'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+const gpt_config_t GPT1_config = {
+  .clockSource = kGPT_ClockSource_Periph,
+  .divider = 1UL,
+  .enableFreeRun = false,
+  .enableRunInWait = true,
+  .enableRunInStop = true,
+  .enableRunInDoze = false,
+  .enableRunInDbg = false,
+  .enableMode = true
+};
+
+static void GPT1_init(void) {
+  /* GPT device and channels initialization */
+  GPT_Init(GPT1_PERIPHERAL, &GPT1_config);
+  GPT_SetOscClockDivider(GPT1_PERIPHERAL, 1);
+  GPT_SetOutputCompareValue(GPT1_PERIPHERAL, kGPT_OutputCompare_Channel1, 625000);
+  GPT_SetOutputOperationMode(GPT1_PERIPHERAL, kGPT_OutputCompare_Channel1, kGPT_OutputOperation_Disconnected);
+  /* Enable GPT interrupt sources */
+  GPT_EnableInterrupts(GPT1_PERIPHERAL, kGPT_OutputCompare1InterruptEnable);
+  /* Enable interrupt GPT1_GPT_IRQN request in the NVIC */
+  EnableIRQ(GPT1_GPT_IRQN);
+  /* Start the GPT timer */ 
+  GPT_StartTimer(GPT1_PERIPHERAL);
+}
+
+/***********************************************************************************************************************
  * Initialization functions
  **********************************************************************************************************************/
 void BOARD_InitPeripherals(void)
 {
   /* Initialize components */
   LPI2C1_init();
+  GPT1_init();
 }
 
 /***********************************************************************************************************************
