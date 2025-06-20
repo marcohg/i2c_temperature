@@ -27,12 +27,15 @@
 #include "fsl_iomuxc.h" // refactor
 int pcf8754_write(uint8_t addr_3bit, uint8_t wr);
 int pcf8754_read(uint8_t add_3bit, uint8_t *rd);
-bool gpt_tick = false;
+int aht21_measurement(void);
 
-/* GPT1_IRQn interrupt handler 10ms */
+bool gpt_tick = false;
+uint64_t g_msec;  // msec since start application
+/* GPT1_IRQn interrupt handler 1ms */
 void GPT1_GPT_IRQHANDLER(void) {
   /*  Place your code here */
   gpt_tick = true;
+  ++g_msec;
   /* Clear interrupt flag.*/
   GPT_ClearStatusFlags(GPT1_PERIPHERAL, kGPT_OutputCompare1Flag);
 
@@ -56,6 +59,21 @@ int main(void) {
 #endif
 
   PRINTF("Hello World\r\n");
+  uint64_t wait = g_msec;
+  uint16_t counter =0;
+  while (g_msec - wait < 15000) {
+    if (gpt_tick) {
+      gpt_tick = false;
+      if(++counter > 500) {
+        counter =0;
+        aht21_measurement();
+        PRINTF("MEAS\r\n");
+      }
+    }
+  }
+
+
+
 //    b2b_test();
   uint8_t write_data = 0;
 //  volatile uint8_t r;

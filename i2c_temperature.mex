@@ -536,7 +536,7 @@
                               <setting name="channelName" value=""/>
                               <setting name="channel" value="kGPT_OutputCompare_Channel1"/>
                               <setting name="mode" value="kGPT_OutputOperation_Disconnected"/>
-                              <setting name="compare_value_str" value="10ms"/>
+                              <setting name="compare_value_str" value="1ms"/>
                            </struct>
                         </array>
                         <set name="interrupt_requests">

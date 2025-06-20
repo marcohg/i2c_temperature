@@ -199,7 +199,7 @@ instance:
         - channelName: ''
         - channel: 'kGPT_OutputCompare_Channel1'
         - mode: 'kGPT_OutputOperation_Disconnected'
-        - compare_value_str: '10ms'
+        - compare_value_str: '1ms'
     - interrupt_requests: 'kGPT_OutputCompare1InterruptEnable'
     - isInterruptEnabled: 'true'
     - interrupt:
@@ -226,7 +226,7 @@ static void GPT1_init(void) {
   /* GPT device and channels initialization */
   GPT_Init(GPT1_PERIPHERAL, &GPT1_config);
   GPT_SetOscClockDivider(GPT1_PERIPHERAL, 1);
-  GPT_SetOutputCompareValue(GPT1_PERIPHERAL, kGPT_OutputCompare_Channel1, 625000);
+  GPT_SetOutputCompareValue(GPT1_PERIPHERAL, kGPT_OutputCompare_Channel1, 62500);
   GPT_SetOutputOperationMode(GPT1_PERIPHERAL, kGPT_OutputCompare_Channel1, kGPT_OutputOperation_Disconnected);
   /* Enable GPT interrupt sources */
   GPT_EnableInterrupts(GPT1_PERIPHERAL, kGPT_OutputCompare1InterruptEnable);
