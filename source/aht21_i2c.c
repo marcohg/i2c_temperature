@@ -85,7 +85,7 @@ static int format_data(aht21_t *d, uint8_t *buffer) {
   d->state = buffer[0];
   uint32_t s_rh = (uint32_t)buffer[1] << 12 | (uint32_t)buffer[2] << 4 | buffer[3] >> 4;
 //  s_rh >>= 4;
-  d->relative_humidity = 100*(float)s_rh/POW_2_20;
+  d->relative_humidity = 100*((float)s_rh/POW_2_20);
   uint32_t s_t = (uint32_t)buffer[3] << 16 | (uint32_t)buffer[4] << 8 | (uint32_t)buffer[5];
   s_t &= 0x0FFFFF;
   d->temperature = ((float)s_t/POW_2_20)*200 -50;

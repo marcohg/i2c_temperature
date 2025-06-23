@@ -68,7 +68,8 @@ int main(void) {
       if(++counter > 500) {
         counter =0;
         aht21_measurement(&aht);
-        PRINTF("R: %5.2f, T:%5.2f\r\n", aht.relative_humidity, aht.temperature);
+        float C = aht.temperature;
+        PRINTF("R: %5.2f, T:%5.1fC,%5.1fF\r\n", aht.relative_humidity, C, C*9/5+32);
       }
     }
   }
