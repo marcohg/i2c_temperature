@@ -25,4 +25,17 @@ regardless of the pin's default direction based on its alternate function settin
 3. I2C peripheral clock source: BOOT_CLOCK RUN 10Mz
 4. With 1,2 and 3, frequency can be set. The displayed calculated value should be closer or equal.
 -> next remove i2c and use Config tools only
+
+## Make AHT21 Work
+- Measure Temperature as INdicated in AHT21 
+	- aht21_t struct
+	- aht21_measurement(aht21_t *d) blocking function
+	- propduction type - make a non-blocking state machine 
+- print float support and c/c++
+	- Linker Script: 
+		- NewLibNano-Semihost,
+		- Enable prinf-float,
+	- c preprocessor:
+		- PRINTF_FLOAT_ENABLE=1
+
     

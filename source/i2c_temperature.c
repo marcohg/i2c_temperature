@@ -17,6 +17,7 @@
 #include "fsl_debug_console.h"
 /* TODO: insert other include files here. */
 #include "b2b_i2c.h"
+#include "aht21_i2c.h"
 
 /* TODO: insert other definitions and declarations here. */
 
@@ -27,7 +28,6 @@
 #include "fsl_iomuxc.h" // refactor
 int pcf8754_write(uint8_t addr_3bit, uint8_t wr);
 int pcf8754_read(uint8_t add_3bit, uint8_t *rd);
-int aht21_measurement(void);
 
 bool gpt_tick = false;
 uint64_t g_msec;  // msec since start application
@@ -61,13 +61,14 @@ int main(void) {
   PRINTF("Hello World\r\n");
   uint64_t wait = g_msec;
   uint16_t counter =0;
-  while (g_msec - wait < 15000) {
+  aht21_t aht;
+  while (1) { // g_msec - wait < 15000) {
     if (gpt_tick) {
       gpt_tick = false;
       if(++counter > 500) {
         counter =0;
-        aht21_measurement();
-        PRINTF("MEAS\r\n");
+        aht21_measurement(&aht);
+        PRINTF("R: %5.2f, T:%5.2f\r\n", aht.relative_humidity, aht.temperature);
       }
     }
   }

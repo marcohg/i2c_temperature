@@ -2,13 +2,13 @@
 #include "fsl_debug_console.h"
 #include "peripherals.h"
 
+
 static lpi2c_master_transfer_t master_transfer = {
     .slaveAddress = AHT21_SLAVE_ADDR_7BIT,
     .direction = kLPI2C_Write,
     .subaddress = 0x01,
     .subaddressSize = 1,
     .data = lpi2c1_master_buffer,
-//    .dataSize = AHTB2B_DATA_LENGTH,
     .flags = kLPI2C_TransferDefaultFlag,
 };
 extern uint64_t g_msec;
@@ -80,12 +80,20 @@ static bool detect(void) {
   return false;
 }
 
-int format_data(void) {
-  PRINTF("Fake Formaat Data\r\n");
+static int format_data(aht21_t *d, uint8_t *buffer) {
+//  PRINTF("Fake Format Data\r\n");
+  d->state = buffer[0];
+  uint32_t s_rh = (uint32_t)buffer[1] << 12 | (uint32_t)buffer[2] << 4 | buffer[3] >> 4;
+//  s_rh >>= 4;
+  d->relative_humidity = 100*(float)s_rh/POW_2_20;
+  uint32_t s_t = (uint32_t)buffer[3] << 16 | (uint32_t)buffer[4] << 8 | (uint32_t)buffer[5];
+  s_t &= 0x0FFFFF;
+  d->temperature = ((float)s_t/POW_2_20)*200 -50;
+  d->crc = buffer[6];
   return 0;
 }
 
-int aht21_measurement() {
+int aht21_measurement(aht21_t *aht21) {
   status_t reVal = kStatus_Fail;
   static bool detected = false;
 
@@ -113,7 +121,7 @@ int aht21_measurement() {
       if (reVal != kStatus_Success)
         return -1;  // Unsuccessful
       if ((lpi2c1_master_buffer[0] & 0x80) == 0) {
-        format_data();
+        format_data(aht21, lpi2c1_master_buffer);
         return 0;
       }
     }
