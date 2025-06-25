@@ -61,13 +61,12 @@ int main(void) {
   PRINTF("Hello World\r\n");
   uint64_t wait = g_msec;
   uint16_t counter =0;
-  aht21_t aht;
+  aht21_t aht = { .state = Init };
+
   while (1) { // g_msec - wait < 15000) {
     if (gpt_tick) {
       gpt_tick = false;
-      if(++counter > 500) {
-        counter =0;
-        aht21_measurement(&aht);
+      if(Aht21StateMachine(&aht)) {
         float C = aht.temperature;
         PRINTF("R: %5.2f, T:%5.1fC,%5.1fF\r\n", aht.relative_humidity, C, C*9/5+32);
       }
