@@ -37,6 +37,22 @@ extern "C" {
  */
 void BOARD_InitBootPins(void);
 
+#define BOARD_INITPINS_IOMUXC_GPR_GPR26_GPIO_SEL_MASK 0x0800U /*!< Select GPIO1 or GPIO2: affected bits mask */
+
+/* GPIO_11 (number 1), GPIO_11 */
+/* Routed pin properties */
+#define BOARD_INITPINS_GPIO_11_PERIPHERAL                                  GPIO1   /*!< Peripheral name */
+#define BOARD_INITPINS_GPIO_11_SIGNAL                                 gpiomux_io   /*!< Signal name */
+#define BOARD_INITPINS_GPIO_11_CHANNEL                                       11U   /*!< Signal channel */
+
+/* Symbols to be used with GPIO driver */
+#define BOARD_INITPINS_GPIO_11_GPIO                                        GPIO1   /*!< GPIO peripheral base pointer */
+#define BOARD_INITPINS_GPIO_11_GPIO_PIN                                      11U   /*!< GPIO pin number */
+#define BOARD_INITPINS_GPIO_11_GPIO_PIN_MASK                         (1U << 11U)   /*!< GPIO pin mask */
+#define BOARD_INITPINS_GPIO_11_PORT                                        GPIO1   /*!< PORT peripheral base pointer */
+#define BOARD_INITPINS_GPIO_11_PIN                                           11U   /*!< PORT pin number */
+#define BOARD_INITPINS_GPIO_11_PIN_MASK                              (1U << 11U)   /*!< PORT pin mask */
+
 /*!
  * @brief Configures pin routing and optionally pin electrical features.
  *

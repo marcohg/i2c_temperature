@@ -26,6 +26,7 @@ pin_labels:
 
 #include "fsl_common.h"
 #include "fsl_iomuxc.h"
+#include "fsl_gpio.h"
 #include "pin_mux.h"
 
 /* FUNCTION ************************************************************************************************************
@@ -48,6 +49,7 @@ BOARD_InitPins:
     hysteresis_enable: Disable}
   - {pin_num: '12', peripheral: LPI2C1, signal: SDA, pin_signal: GPIO_01, identifier: '', software_input_on: Enable, open_drain: Enable, pull_up_down_config: Pull_Up_22K_Ohm,
     hysteresis_enable: Disable}
+  - {pin_num: '1', peripheral: GPIO1, signal: 'gpiomux_io, 11', pin_signal: GPIO_11, direction: OUTPUT, gpio_init_state: no_init, pull_up_down_config: Pull_Up_100K_Ohm}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -60,10 +62,25 @@ BOARD_InitPins:
 void BOARD_InitPins(void) {
   CLOCK_EnableClock(kCLOCK_Iomuxc);           
 
+  /* GPIO configuration of GPIO_11 on GPIO_11 (pin 1) */
+  gpio_pin_config_t GPIO_11_config = {
+      .direction = kGPIO_DigitalOutput,
+      .outputLogic = 0U,
+      .interruptMode = kGPIO_NoIntmode
+  };
+  /* Initialize GPIO functionality on GPIO_11 (pin 1) */
+  GPIO_PinInit(GPIO1, 11U, &GPIO_11_config);
+
   IOMUXC_SetPinMux(IOMUXC_GPIO_01_LPI2C1_SDA, 1U); 
   IOMUXC_SetPinMux(IOMUXC_GPIO_02_LPI2C1_SCL, 1U); 
+  IOMUXC_SetPinMux(IOMUXC_GPIO_11_GPIOMUX_IO11, 0U); 
+  IOMUXC_GPR->GPR26 = ((IOMUXC_GPR->GPR26 &
+    (~(BOARD_INITPINS_IOMUXC_GPR_GPR26_GPIO_SEL_MASK))) 
+      | IOMUXC_GPR_GPR26_GPIO_SEL(0x00U)      
+    );
   IOMUXC_SetPinConfig(IOMUXC_GPIO_01_LPI2C1_SDA, 0xD8A0U); 
   IOMUXC_SetPinConfig(IOMUXC_GPIO_02_LPI2C1_SCL, 0xD8A0U); 
+  IOMUXC_SetPinConfig(IOMUXC_GPIO_11_GPIOMUX_IO11, 0x90A0U); 
 }
 
 /*

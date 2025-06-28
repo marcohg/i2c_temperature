@@ -38,4 +38,7 @@ regardless of the pin's default direction based on its alternate function settin
 	- c preprocessor:
 		- PRINTF_FLOAT_ENABLE=1
 
+## State Machine for AHT21
+- Non-blocking function to measure every MEASUREMENT_PERIOD (1000)
+- Added user-led pin GPIO_11 to monitor timming
     

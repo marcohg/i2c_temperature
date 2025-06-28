@@ -5,17 +5,15 @@
 #include "i2c.h"
 
 // AHT21 States
-typedef enum {
-  Init,
-  Powerup,          //  100ms delay
-  WaitStateReply,   //  Host request AHT state, if ready or needs Initialization
-  InitializeAht,    //  AHT requires initialization (TBD)
-  PauseBeforeMeasuring, // After detecting AHD and State replied, 10ms pause
-
-  MeasuringState,  // Wait 80ms for completion of the last measurement triggered
-  MeasurementReply,// Wait for the 7 bytes to arrive
-  RetryLastMeasuring,  // retry last measurement
-  MeasuringPeriod,  // Wait for the period to elapse
+typedef enum aht_state_tag {
+  Init = 0,
+  GetStatus,
+  InitializeAht,    	  //  AHT requires initialization (TBD)
+  PowerupEnds, 				  // Short delay at end of init sequence
+  MeasurementTriggered, // Wait before sending a meassure data request (80ms)
+  MeasureDataRequested, // wait for the i2c data to complete
+  RetryDataRequest,     // sensor was busy, retry
+  MeasuringPeriod,  		// Waiting to comply measurement period
   // Some errors
   Transfer_Unsuccesful,
   Transfer_Timeout,
@@ -37,9 +35,15 @@ typedef struct aht21_tag {
 } aht21_t;
 
 #define AHT21_SLAVE_ADDR_7BIT 0x38U
+#define AHT21_GET_STATUS 0x71
+#define AHT21_TRIGGER_MEASUREMENT 0xAC
+#define AHT21_TRIGGER_MEASURING_DELAY 80
+#define AHT21_RETRY_MEASURED_DATA_REQ_DELAY 10
+
+
 #define POW_2_20 (0x100000)	// 2^20
 #define TRANSFER_TIMEOUT 1000   // ms
-#define MEASUREMENT_PERIOD 1000
+#define MEASUREMENT_PERIOD 500
 
 //
 //} i2c_transfer_result_t;
@@ -49,13 +53,8 @@ typedef struct aht21_tag {
 #define I2C_TRANSFER_SUCCESFUL    0
 #define I2C_TRANSFER_WAITING      1
 
-
-
-//extern lpi2c_master_handle_t g_m_handle;
 extern volatile bool g_MasterCompletionFlag;
 extern volatile bool g_MasterNackFlag;
 
-// lpi2c_master_transfer_callback_t
-//void lpi2c_master_callback(LPI2C_Type *base, lpi2c_master_handle_t *handle, status_t completionStatus, void *userData);
 int Aht21StateMachine(aht21_t *aht21);
 #endif

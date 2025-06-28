@@ -30,7 +30,8 @@ int pcf8754_write(uint8_t addr_3bit, uint8_t wr);
 int pcf8754_read(uint8_t add_3bit, uint8_t *rd);
 
 bool gpt_tick = false;
-uint64_t g_msec;  // msec since start application
+volatile uint64_t g_msec;  // msec since start application
+
 /* GPT1_IRQn interrupt handler 1ms */
 void GPT1_GPT_IRQHANDLER(void) {
   /*  Place your code here */
@@ -38,13 +39,10 @@ void GPT1_GPT_IRQHANDLER(void) {
   ++g_msec;
   /* Clear interrupt flag.*/
   GPT_ClearStatusFlags(GPT1_PERIPHERAL, kGPT_OutputCompare1Flag);
-
-  /* Add for ARM errata 838869, affects Cortex-M4, Cortex-M4F
-     Store immediate overlapping exception return operation might vector to incorrect interrupt. */
-  #if defined __CORTEX_M && (__CORTEX_M == 4U)
-    __DSB();
-  #endif
+  __DSB();  // Needed in RT1010 Cortex-M7
 }
+
+
 uint8_t read_data[4];
 int main(void) {
 
@@ -59,25 +57,17 @@ int main(void) {
 #endif
 
   PRINTF("Hello World\r\n");
-  uint64_t wait = g_msec;
-  uint16_t counter =0;
   aht21_t aht = { .state = Init };
 
-  while (1) { // g_msec - wait < 15000) {
-    if (gpt_tick) {
-      gpt_tick = false;
+  while (1) {
       if(Aht21StateMachine(&aht)) {
         float C = aht.temperature;
         PRINTF("R: %5.2f, T:%5.1fC,%5.1fF\r\n", aht.relative_humidity, C, C*9/5+32);
       }
     }
-  }
-
-
 
 //    b2b_test();
   uint8_t write_data = 0;
-//  volatile uint8_t r;
 
   /* Force the counter to be placed into memory. */
   volatile static int i = 0;
